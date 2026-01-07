@@ -1,20 +1,22 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-
-const navItems = [
-  { label: "Services", href: "#services" },
-  { label: "How I Work", href: "#process" },
-  { label: "Projects", href: "#projects" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Header = () => {
+  const { language, setLanguage, t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navItems = [
+    { label: t.nav.services, href: "#services" },
+    { label: t.nav.howIWork, href: "#process" },
+    { label: t.nav.projects, href: "#projects" },
+    { label: t.nav.pricing, href: "#pricing" },
+    { label: t.nav.faq, href: "#faq" },
+    { label: t.nav.contact, href: "#contact" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,6 +32,10 @@ export const Header = () => {
       element.scrollIntoView({ behavior: "smooth" });
     }
     setIsMobileMenuOpen(false);
+  };
+
+  const toggleLanguage = () => {
+    setLanguage(language === "en" ? "tr" : "en");
   };
 
   return (
@@ -55,23 +61,44 @@ export const Header = () => {
               {item.label}
             </button>
           ))}
+          
+          {/* Language Toggle */}
+          <button
+            onClick={toggleLanguage}
+            className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50 ml-2"
+            aria-label="Toggle language"
+          >
+            <Globe className="h-4 w-4" />
+            <span>{language === "en" ? "TR" : "EN"}</span>
+          </button>
+          
           <Button
             onClick={() => scrollToSection("#contact")}
             className="ml-4"
             size="sm"
           >
-            Get a Quote
+            {t.nav.getQuote}
           </Button>
         </nav>
 
         {/* Mobile Menu Button */}
-        <button
-          className="md:hidden p-2 text-foreground"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="md:hidden flex items-center gap-2">
+          <button
+            onClick={toggleLanguage}
+            className="flex items-center gap-1 px-2 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Toggle language"
+          >
+            <Globe className="h-4 w-4" />
+            <span>{language === "en" ? "TR" : "EN"}</span>
+          </button>
+          <button
+            className="p-2 text-foreground"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -97,7 +124,7 @@ export const Header = () => {
                 onClick={() => scrollToSection("#contact")}
                 className="mt-2"
               >
-                Get a Quote
+                {t.nav.getQuote}
               </Button>
             </nav>
           </motion.div>

@@ -1,6 +1,8 @@
 import { Linkedin } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Footer = () => {
+  const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -13,7 +15,7 @@ export const Footer = () => {
               <span className="text-gradient"> Teknik</span>
             </a>
             <p className="text-sm text-muted-foreground mt-2">
-              Network • CCTV • IT Services • Web Development
+              {t.footer.tagline}
             </p>
           </div>
 
@@ -31,9 +33,9 @@ export const Footer = () => {
         </div>
 
         <div className="mt-8 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>© {currentYear} Bediz Teknik. All rights reserved.</p>
+          <p>© {currentYear} Bediz Teknik. {t.footer.rights}</p>
           <p>
-            Istanbul, Türkiye • 
+            {t.footer.location} • 
             <a href="mailto:hello@bediteknik.com" className="hover:text-primary transition-colors ml-1">
               hello@bediteknik.com
             </a>

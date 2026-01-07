@@ -1,14 +1,12 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Phone, CheckCircle } from "lucide-react";
-
-const trustBullets = [
-  "Clean installation",
-  "Documented delivery",
-  "Post-support included",
-];
+import { useLanguage } from "@/contexts/LanguageContext";
+import { HeroIllustration } from "./HeroIllustration";
 
 export const Hero = () => {
+  const { t } = useLanguage();
+
   const scrollToContact = () => {
     document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -21,84 +19,91 @@ export const Hero = () => {
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px]" />
 
       <div className="container relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="inline-block px-4 py-1.5 mb-6 text-xs font-medium tracking-wider uppercase bg-primary/10 text-primary rounded-full border border-primary/20">
-              Istanbul-Based Tech Services
-            </span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
-          >
-            Network, CCTV, Wi-Fi, IT Service &{" "}
-            <span className="text-gradient">Full-Stack Websites</span>
-            <br />
-            <span className="text-muted-foreground">— built with an engineer's discipline.</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8"
-          >
-            Serving Istanbul with fast response times, quality installations, and systematic project delivery. 
-            No shortcuts. No guesswork.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
-          >
-            <Button
-              size="lg"
-              className="w-full sm:w-auto glow"
-              asChild
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="text-center lg:text-left">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
             >
-              <a
-                href="https://wa.me/90XXXXXXXXXX"
-                target="_blank"
-                rel="noopener noreferrer"
+              <span className="inline-block px-4 py-1.5 mb-6 text-xs font-medium tracking-wider uppercase bg-primary/10 text-primary rounded-full border border-primary/20">
+                {t.hero.badge}
+              </span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+            >
+              {t.hero.headline}{" "}
+              <span className="text-gradient">{t.hero.headlineHighlight}</span>
+              <br />
+              <span className="text-muted-foreground">{t.hero.headlineSuffix}</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 mb-8"
+            >
+              {t.hero.subheadline}
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-12"
+            >
+              <Button size="lg" className="w-full sm:w-auto glow" asChild>
+                <a
+                  href="https://wa.me/90XXXXXXXXXX"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  {t.hero.whatsapp}
+                </a>
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="w-full sm:w-auto"
+                asChild
               >
-                <MessageCircle className="mr-2 h-5 w-5" />
-                WhatsApp Me
-              </a>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="w-full sm:w-auto"
-              asChild
-            >
-              <a href="tel:+90XXXXXXXXXX">
-                <Phone className="mr-2 h-5 w-5" />
-                Call Now
-              </a>
-            </Button>
-          </motion.div>
+                <a href="tel:+90XXXXXXXXXX">
+                  <Phone className="mr-2 h-5 w-5" />
+                  {t.hero.call}
+                </a>
+              </Button>
+            </motion.div>
 
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-6"
+            >
+              {t.hero.trustBullets.map((bullet, index) => (
+                <div key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <CheckCircle className="h-4 w-4 text-primary" />
+                  <span>{bullet}</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Hero Illustration */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-wrap items-center justify-center gap-6"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="hidden lg:flex items-center justify-center"
           >
-            {trustBullets.map((bullet, index) => (
-              <div key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
-                <CheckCircle className="h-4 w-4 text-primary" />
-                <span>{bullet}</span>
-              </div>
-            ))}
+            <HeroIllustration />
           </motion.div>
         </div>
       </div>
@@ -115,7 +120,7 @@ export const Hero = () => {
           className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           aria-label="Scroll down"
         >
-          <span className="text-xs uppercase tracking-wider">Explore</span>
+          <span className="text-xs uppercase tracking-wider">{t.hero.explore}</span>
           <div className="w-6 h-10 rounded-full border-2 border-current flex items-start justify-center p-1">
             <motion.div
               animate={{ y: [0, 8, 0] }}
