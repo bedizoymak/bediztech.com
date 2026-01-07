@@ -1,48 +1,11 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
-
-const packages = [
-  {
-    name: "Quick Fix",
-    price: "₺500–1,500",
-    description: "Basic IT issues, cleanup, and quick wins.",
-    features: [
-      "OS reinstall or cleanup",
-      "Driver updates",
-      "Basic troubleshooting",
-      "Thermal paste refresh",
-      "Same-day availability",
-    ],
-  },
-  {
-    name: "Home / Small Office Network",
-    price: "₺2,000–5,000",
-    description: "Complete network setup with proper planning.",
-    features: [
-      "Router & AP configuration",
-      "Basic network segmentation",
-      "Cable management",
-      "Speed optimization",
-      "Topology documentation",
-    ],
-    featured: true,
-  },
-  {
-    name: "CCTV Deployment",
-    price: "₺3,000–10,000+",
-    description: "Professional security camera installation.",
-    features: [
-      "Site survey & planning",
-      "PoE infrastructure",
-      "NVR/storage setup",
-      "Remote access config",
-      "Maintenance guidance",
-    ],
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const PricingSection = () => {
+  const { t } = useLanguage();
+
   const scrollToContact = () => {
     document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -52,20 +15,20 @@ export const PricingSection = () => {
       <div className="container">
         <div className="text-center mb-16">
           <span className="inline-block px-3 py-1 mb-4 text-xs font-medium tracking-wider uppercase bg-primary/10 text-primary rounded-full">
-            Pricing
+            {t.pricing.badge}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Transparent Pricing
+            {t.pricing.title}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Ranges based on scope. Final quote after a short discovery call.
+            {t.pricing.subtitle}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {packages.map((pkg, index) => (
+          {t.pricing.packages.map((pkg, index) => (
             <motion.div
-              key={pkg.name}
+              key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -78,7 +41,7 @@ export const PricingSection = () => {
             >
               {pkg.featured && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 text-xs font-medium bg-primary text-primary-foreground rounded-full">
-                  Most Popular
+                  {t.pricing.mostPopular}
                 </span>
               )}
 
@@ -87,8 +50,8 @@ export const PricingSection = () => {
               <p className="text-sm text-muted-foreground mb-6">{pkg.description}</p>
 
               <ul className="space-y-3 mb-6">
-                {pkg.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2 text-sm">
+                {pkg.features.map((feature, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm">
                     <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                     <span className="text-muted-foreground">{feature}</span>
                   </li>
@@ -100,14 +63,14 @@ export const PricingSection = () => {
                 variant={pkg.featured ? "default" : "outline"}
                 className="w-full"
               >
-                Get a Quote
+                {t.pricing.getQuote}
               </Button>
             </motion.div>
           ))}
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-8">
-          Website, SEO, and consulting services quoted separately based on requirements.
+          {t.pricing.note}
         </p>
       </div>
     </section>

@@ -8,14 +8,16 @@ import { FAQSection } from "@/components/FAQSection";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Index = () => {
+  const { t, language } = useLanguage();
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Bediz Teknik",
-    description:
-      "Professional IT services in Istanbul: Network infrastructure, CCTV installation, Wi-Fi optimization, PC/Mac services, and full-stack website development.",
+    description: t.meta.description,
     url: "https://bediteknik.com",
     telephone: "+90XXXXXXXXXX",
     email: "hello@bediteknik.com",
@@ -43,11 +45,9 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Bediz Teknik | Network, CCTV, IT Services & Web Development in Istanbul</title>
-        <meta
-          name="description"
-          content="Professional IT services in Istanbul: Network infrastructure, CCTV installation, Wi-Fi optimization, PC/Mac services, and full-stack website development. Engineer-led, documented delivery."
-        />
+        <html lang={language} />
+        <title>{t.meta.title}</title>
+        <meta name="description" content={t.meta.description} />
         <meta
           name="keywords"
           content="IT services Istanbul, network installation, CCTV installation Istanbul, Wi-Fi setup, website development Turkey, Google Business Profile setup"
@@ -57,26 +57,14 @@ const Index = () => {
         {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://bediteknik.com" />
-        <meta
-          property="og:title"
-          content="Bediz Teknik | Network, CCTV, IT Services & Web Development"
-        />
-        <meta
-          property="og:description"
-          content="Professional IT services in Istanbul with an engineer's discipline. Network, CCTV, Wi-Fi, and full-stack web development."
-        />
-        <meta property="og:locale" content="en_US" />
+        <meta property="og:title" content={t.meta.ogTitle} />
+        <meta property="og:description" content={t.meta.ogDescription} />
+        <meta property="og:locale" content={language === "tr" ? "tr_TR" : "en_US"} />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Bediz Teknik | IT Services & Web Development in Istanbul"
-        />
-        <meta
-          name="twitter:description"
-          content="Professional IT services in Istanbul with an engineer's discipline."
-        />
+        <meta name="twitter:title" content={t.meta.ogTitle} />
+        <meta name="twitter:description" content={t.meta.ogDescription} />
 
         {/* JSON-LD */}
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>

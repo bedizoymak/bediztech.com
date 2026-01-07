@@ -12,27 +12,16 @@ import {
 } from "@/components/ui/select";
 import { MessageCircle, Phone, Mail, MapPin, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
-const services = [
-  "Network Infrastructure",
-  "Security Cameras (CCTV)",
-  "Wi-Fi Improvement",
-  "PC/Mac Services",
-  "Website Development",
-  "Google Business Profile",
-  "SEO Services",
-  "Ads Management",
-  "Consulting",
-  "Other",
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const districts = [
   "Kadıköy", "Beşiktaş", "Şişli", "Üsküdar", "Ataşehir", 
   "Maltepe", "Kartal", "Pendik", "Bakırköy", "Beyoğlu",
-  "Sarıyer", "Fatih", "Other"
+  "Sarıyer", "Fatih", "Other / Diğer"
 ];
 
 export const ContactSection = () => {
+  const { t } = useLanguage();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -48,17 +37,16 @@ export const ContactSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Create mailto link as fallback
-    const mailtoSubject = encodeURIComponent(`[Bediz Teknik] ${formData.service} Inquiry`);
+    const mailtoSubject = encodeURIComponent(`[Bediz Teknik] ${formData.service}`);
     const mailtoBody = encodeURIComponent(
-      `Name: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email}\nService: ${formData.service}\nLocation: ${formData.location}\n\nMessage:\n${formData.message}`
+      `${t.contact.form.name}: ${formData.name}\n${t.contact.form.phone}: ${formData.phone}\n${t.contact.form.email}: ${formData.email}\n${t.contact.form.service}: ${formData.service}\n${t.contact.form.location}: ${formData.location}\n\n${t.contact.form.message}:\n${formData.message}`
     );
     
     window.location.href = `mailto:hello@bediteknik.com?subject=${mailtoSubject}&body=${mailtoBody}`;
 
     toast({
-      title: "Opening your email client...",
-      description: "Please send the email to complete your inquiry. Alternatively, reach out via WhatsApp for faster response.",
+      title: "Opening email client...",
+      description: "Please send the email. You can also reach out via WhatsApp.",
     });
 
     setIsSubmitting(false);
@@ -69,13 +57,13 @@ export const ContactSection = () => {
       <div className="container">
         <div className="text-center mb-16">
           <span className="inline-block px-3 py-1 mb-4 text-xs font-medium tracking-wider uppercase bg-primary/10 text-primary rounded-full">
-            Contact
+            {t.contact.badge}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Let's Talk
+            {t.contact.title}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Describe your needs. I'll get back to you within 24 hours.
+            {t.contact.subtitle}
           </p>
         </div>
 
@@ -89,7 +77,7 @@ export const ContactSection = () => {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-xl font-semibold mb-6">Quick Contact</h3>
+              <h3 className="text-xl font-semibold mb-6">{t.contact.quickContact}</h3>
               <div className="space-y-4">
                 <a
                   href="https://wa.me/90XXXXXXXXXX"
@@ -101,8 +89,8 @@ export const ContactSection = () => {
                     <MessageCircle className="h-6 w-6 text-green-500" />
                   </div>
                   <div>
-                    <div className="font-medium group-hover:text-primary transition-colors">WhatsApp</div>
-                    <div className="text-sm text-muted-foreground">Fastest response</div>
+                    <div className="font-medium group-hover:text-primary transition-colors">{t.contact.whatsapp}</div>
+                    <div className="text-sm text-muted-foreground">{t.contact.fastestResponse}</div>
                   </div>
                 </a>
 
@@ -114,7 +102,7 @@ export const ContactSection = () => {
                     <Phone className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <div className="font-medium group-hover:text-primary transition-colors">Phone</div>
+                    <div className="font-medium group-hover:text-primary transition-colors">{t.contact.phone}</div>
                     <div className="text-sm text-muted-foreground">+90 XXX XXX XX XX</div>
                   </div>
                 </a>
@@ -127,7 +115,7 @@ export const ContactSection = () => {
                     <Mail className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <div className="font-medium group-hover:text-primary transition-colors">Email</div>
+                    <div className="font-medium group-hover:text-primary transition-colors">{t.contact.email}</div>
                     <div className="text-sm text-muted-foreground">hello@bediteknik.com</div>
                   </div>
                 </a>
@@ -140,9 +128,9 @@ export const ContactSection = () => {
                   <MapPin className="h-5 w-5 text-muted-foreground" />
                 </div>
                 <div>
-                  <div className="font-medium">Service Area</div>
+                  <div className="font-medium">{t.contact.serviceArea}</div>
                   <div className="text-sm text-muted-foreground">
-                    Istanbul (Asian & European side) and nearby areas
+                    {t.contact.serviceAreaText}
                   </div>
                 </div>
               </div>
@@ -152,11 +140,9 @@ export const ContactSection = () => {
                   <Clock className="h-5 w-5 text-muted-foreground" />
                 </div>
                 <div>
-                  <div className="font-medium">Availability</div>
-                  <div className="text-sm text-muted-foreground">
-                    Weekdays: 10:00 – 20:00<br />
-                    Weekends: By appointment<br />
-                    Urgent: Same-day possible
+                  <div className="font-medium">{t.contact.availability}</div>
+                  <div className="text-sm text-muted-foreground whitespace-pre-line">
+                    {t.contact.availabilityText}
                   </div>
                 </div>
               </div>
@@ -174,12 +160,12 @@ export const ContactSection = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="name" className="text-sm font-medium mb-2 block">
-                    Name *
+                    {t.contact.form.name} *
                   </label>
                   <Input
                     id="name"
                     required
-                    placeholder="Your name"
+                    placeholder={t.contact.form.namePlaceholder}
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="bg-card"
@@ -187,13 +173,13 @@ export const ContactSection = () => {
                 </div>
                 <div>
                   <label htmlFor="phone" className="text-sm font-medium mb-2 block">
-                    Phone *
+                    {t.contact.form.phone} *
                   </label>
                   <Input
                     id="phone"
                     type="tel"
                     required
-                    placeholder="+90 5XX XXX XX XX"
+                    placeholder={t.contact.form.phonePlaceholder}
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="bg-card"
@@ -203,12 +189,12 @@ export const ContactSection = () => {
 
               <div>
                 <label htmlFor="email" className="text-sm font-medium mb-2 block">
-                  Email
+                  {t.contact.form.email}
                 </label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder={t.contact.form.emailPlaceholder}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="bg-card"
@@ -218,7 +204,7 @@ export const ContactSection = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium mb-2 block">
-                    Service Needed *
+                    {t.contact.form.service} *
                   </label>
                   <Select
                     required
@@ -226,10 +212,10 @@ export const ContactSection = () => {
                     onValueChange={(value) => setFormData({ ...formData, service: value })}
                   >
                     <SelectTrigger className="bg-card">
-                      <SelectValue placeholder="Select service" />
+                      <SelectValue placeholder={t.contact.form.servicePlaceholder} />
                     </SelectTrigger>
                     <SelectContent>
-                      {services.map((service) => (
+                      {t.contact.services.map((service) => (
                         <SelectItem key={service} value={service}>
                           {service}
                         </SelectItem>
@@ -239,14 +225,14 @@ export const ContactSection = () => {
                 </div>
                 <div>
                   <label className="text-sm font-medium mb-2 block">
-                    Location (District)
+                    {t.contact.form.location}
                   </label>
                   <Select
                     value={formData.location}
                     onValueChange={(value) => setFormData({ ...formData, location: value })}
                   >
                     <SelectTrigger className="bg-card">
-                      <SelectValue placeholder="Select district" />
+                      <SelectValue placeholder={t.contact.form.locationPlaceholder} />
                     </SelectTrigger>
                     <SelectContent>
                       {districts.map((district) => (
@@ -261,12 +247,12 @@ export const ContactSection = () => {
 
               <div>
                 <label htmlFor="message" className="text-sm font-medium mb-2 block">
-                  Brief Description *
+                  {t.contact.form.message} *
                 </label>
                 <Textarea
                   id="message"
                   required
-                  placeholder="Tell me about your project or issue..."
+                  placeholder={t.contact.form.messagePlaceholder}
                   rows={4}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -275,11 +261,11 @@ export const ContactSection = () => {
               </div>
 
               <Button type="submit" size="lg" className="w-full glow" disabled={isSubmitting}>
-                {isSubmitting ? "Sending..." : "Send Inquiry"}
+                {isSubmitting ? t.contact.form.submitting : t.contact.form.submit}
               </Button>
 
               <p className="text-xs text-muted-foreground text-center">
-                Your information is kept private. I'll respond within 24 hours.
+                {t.contact.form.privacy}
               </p>
             </form>
           </motion.div>
